@@ -1,0 +1,9 @@
+[submodule "safu"]
+	path = safu
+	url = ssh://aur@aur.archlinux.org/safu.git
+[submodule "samconf"]
+	path = samconf
+	url = ssh://aur@aur.archlinux.org/samconf.git
+[submodule "elos"]
+	path = elos
+	url = ssh://aur@aur.archlinux.org/elos.git
