@@ -14,25 +14,26 @@ WORKDIR /build
 
 USER $USER
 
-RUN yay -Syy && yay --noconfirm -S \
+COPY safu/PKGBUILD safu/.SRCINFO safu/
+COPY samconf/PKGBUILD samconf/.SRCINFO samconf/
+COPY elos/PKGBUILD elos/.SRCINFO elos/elos.install elos/
+
+RUN yay --noconfirm -Syu && yay --noconfirm -S \
 	log4c \
 	namcap
 
-COPY safu/PKGBUILD safu/.SRCINFO safu/
 RUN pushd safu \
     && namcap PKGBUILD \
 	&& makepkg -sri --noconfirm \
     && find ./ -name "*.pkg.tar*" -exec namcap {} \; \
 	&& popd
 
-COPY samconf/PKGBUILD samconf/.SRCINFO samconf/
 RUN pushd samconf \
     && namcap PKGBUILD \
 	&& makepkg -sri --noconfirm \
     && find ./ -name "*.pkg.tar*" -exec namcap {} \; \
 	&& popd
 
-COPY elos/PKGBUILD elos/.SRCINFO elos/elos.install elos/
 RUN pushd elos \
     && namcap PKGBUILD \
 	&& makepkg -sri --noconfirm \
