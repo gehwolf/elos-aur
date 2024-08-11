@@ -14,21 +14,21 @@ git submodule update --init --recursive
 ```
 
 ## Release
-
-1. update versions PKGBUILD
-2. update checksums
+1. update versions:
 ```bash
-git submodule foreach makepkg -g
-git submodule foreach git diff
+./updatePkgVer.sh safu/ 0.57.1
+./updatePkgVer.sh samconf/ 0.57.1
+./updatePkgVer.sh elos/ 0.57.1
 ```
-3. test build `./docker-run.sh`
-4. in docker check packages with namcap
-5. in docker run, test and play with elos
+2. test build `./docker-run.sh`
+3. in docker run, test and play with elos
 ```bash
 sudo /usr/lib/elos/tests/smoketest.sh
 ```
-6. update .SRCINFO
+4. in docker check packages with namcap
+5. for each package: git add , git commit, git push
 ```bash
-git submodule foreach sh -c 'makepkg --printsrcinfo > .SRCINFO'
+git submodule foreach git add .SRCINFO PKGBUILD
+git submodule foreach git commit
+git submodule foreach git push aur HEAD:master
 ```
-7. for each package: git add , git commit, git push
