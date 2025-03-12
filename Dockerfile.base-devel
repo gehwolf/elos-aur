@@ -1,0 +1,37 @@
+FROM archlinux:base
+
+ARG USER=ci
+ARG UID=1000
+ARG GID=1000
+
+RUN cat /etc/pacman.d/mirrorlist
+RUN  groupadd -g $GID $USER \
+  && useradd -m -u $UID -g $GID -G wheel $USER \
+  && echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+  && mkdir /build && chown -R $UID:$GID /build \
+  && pacman --noconfirm -Syu \
+  && pacman --noconfirm -S archlinux-keyring \
+  && pacman --noconfirm -S base-devel devtools
+
+WORKDIR /build
+
+USER $USER
+
+# RUN export CHROOT="$HOME/chroot" \
+#   && mkdir -p "${CHROOT}" \
+#   && mkarchroot "$CHROOT/root" base-devel \
+#   && arch-nspawn "$CHROOT/root" pacman -Syu
+
+
+#RUN pushd safu \
+#	&& makepkg -sri --noconfirm \
+#	&& popd
+#
+#RUN pushd samconf \
+#	&& makepkg -sri --noconfirm \
+#	&& popd
+#
+#RUN pushd elos \
+#	&& makepkg -sri --noconfirm \
+#	&& popd
+CMD /bin/bash
