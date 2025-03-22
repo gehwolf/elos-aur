@@ -11,6 +11,7 @@ PKGBUILD_FILE="${PROJECT_PATH}/PKGBUILD"
 
 sed -i "s/^pkgver=.*\$/pkgver=${NEW_VERSION}/" "${PKGBUILD_FILE}"
 sed -i "/^md5sums=/d" "${PKGBUILD_FILE}"
+sed -i "/^sha256sums=/d" "${PKGBUILD_FILE}"
 
 cd "${PROJECT_PATH}"
 makepkg -g >> "${PKGBUILD_FILE}"
