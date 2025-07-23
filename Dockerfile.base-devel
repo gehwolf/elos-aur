@@ -13,6 +13,15 @@ RUN  groupadd -g $GID $USER \
   && pacman --noconfirm -S archlinux-keyring \
   && pacman --noconfirm -S base-devel devtools
 
+RUN mkdir /srv/elos \
+    && echo "[elos]" >> /etc/pacman.conf \
+    && echo "SigLevel = Optional TrustAll" >> /etc/pacman.conf \
+    && echo "Server = file:///srv/elos" >> /etc/pacman.conf
+
+COPY ./elos/*.pkg.tar.zst /srv/elos/
+COPY ./safu/*.pkg.tar.zst /srv/elos/
+COPY ./samconf/*.pkg.tar.zst /srv/elos/
+
 WORKDIR /build
 
 USER $USER
